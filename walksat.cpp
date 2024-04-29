@@ -108,17 +108,18 @@ static inline int MAX(int x, int y)
 /* Main                             */
 /************************************/
 
-int WalkSAT::main()
+int WalkSAT::main(double bencht)
 {
-    seed = 0;
+    // seed = 0;
     parse_parameters();
+    if(seed == 0) seed = time(nullptr);
     srandom(seed);
     print_parameters();
     initprob();
     initialize_statistics();
     print_statistics_header();
-
-    while (!found_solution && numtry < numrun) {
+    expertime = 0.0;
+    while ((numtry < numrun) && (bencht <= 0.0 || expertime <= bencht ) ) {
         numtry++;
         init();
         update_statistics_start_try();
@@ -132,8 +133,11 @@ int WalkSAT::main()
             update_statistics_end_flip();
         }
         update_and_print_statistics_end_try();
+        expertime = cpuTime();
+        if(found_solution && bencht <= 0.0)
+            break;
     }
-    expertime = cpuTime();
+
     print_statistics_final();
     return found_solution;
 }
@@ -483,7 +487,7 @@ void WalkSAT::update_and_print_statistics_end_try()
     }
 
     if (numfalse == 0) {
-        found_solution = true;
+        found_solution += 1;
         totalsuccessflip += numflip;
         integer_sum_x += x;
         sum_x = (double)integer_sum_x;
@@ -511,7 +515,7 @@ void WalkSAT::update_and_print_statistics_end_try()
         exit(-1);
     }
 
-    fflush(stdout);
+    //fflush(stdout);
 }
 
 void WalkSAT::print_statistics_final()

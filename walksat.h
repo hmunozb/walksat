@@ -32,9 +32,8 @@ namespace CMSat {
 
 class WalkSAT {
 public:
-    int main();
+    int main(double bencht = -1.0);
 
-private:
     /************************************/
     /* Main                             */
     /************************************/
@@ -129,7 +128,7 @@ private:
     int freebienoise = 0;
 
     /* Random seed */
-    unsigned int seed; /* Sometimes defined as an unsigned long int */
+    unsigned int seed = 0; /* Sometimes defined as an unsigned long int */
 
     /* Histogram of tail */
     static const int HISTMAX=64;         /* length of histogram of tail */
@@ -145,7 +144,7 @@ private:
     uint32_t lowbad;                  /* lowest number of bad clauses during try */
     int64_t totalflip = 0;        /* total number of flips in all tries so far */
     int64_t totalsuccessflip = 0; /* total number of flips in all tries which succeeded so far */
-    bool found_solution = 0;       /* total found solutions */
+    int found_solution = 0;       /* total found solutions */
     int64_t x;
     int64_t integer_sum_x = 0;
     double sum_x = 0.0;

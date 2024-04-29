@@ -23,9 +23,35 @@ THE SOFTWARE.
 #include "walksat.h"
 using namespace CMSat;
 
-int main()
+int main(int argc, char* argv[])
 {
+    long long max_steps = 1000, max_tries=10;
+    double p = 0.5;
+    // Default random seed
+    std::uint64_t seed = 0;
+    // Set default value for verbosity
+    double bencht = -1.0;
+
+    // Assign provided values
+    switch (argc) {
+        case 6:
+            bencht = std::stod(argv[5]);
+        case 5:
+            seed = std::stoull(argv[4]);
+        case 4:
+            p = std::stod(argv[3]);
+        case 3:
+            max_tries = std::stoull(argv[2]);
+        case 2:
+            max_steps = std::stoull(argv[1]);
+        default: ;
+    }
+
     WalkSAT walk;
-    walk.main();
+    walk.walk_probability = p;
+    walk.cutoff = max_steps;
+    walk.seed = seed;
+    walk.numrun = max_tries;
+    walk.main(bencht);
     return 0;
 }
