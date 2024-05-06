@@ -65,6 +65,7 @@ THE SOFTWARE.
 #include <cstdio>
 #include <cmath>
 #include <cstdlib>
+#include <random>
 #include "walksat.h"
 
 #ifdef WINDOWS
@@ -112,7 +113,7 @@ int WalkSAT::main(double bencht)
 {
     // seed = 0;
     parse_parameters();
-    if(seed == 0) seed = time(nullptr);
+    if(seed == 0) seed = std::random_device()();
     srandom(seed);
     print_parameters();
     initprob();
