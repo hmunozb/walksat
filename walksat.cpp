@@ -117,7 +117,7 @@ int WalkSAT::main(double bencht)
     print_parameters();
     initprob();
     initialize_statistics();
-    print_statistics_header();
+    //print_statistics_header();
     expertime = 0.0;
     while ((numtry < numrun) && (bencht <= 0.0 || expertime <= bencht ) ) {
         numtry++;
@@ -498,6 +498,7 @@ void WalkSAT::update_and_print_statistics_end_try()
         r = 0;
     }
 
+    return;
     //MSOOS: this has been removed, uses memory, only stats
     double undo_fraction = 0;
 
